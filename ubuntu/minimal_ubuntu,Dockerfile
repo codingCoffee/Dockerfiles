@@ -1,0 +1,33 @@
+# my minimalistic ubuntu setup
+
+FROM ubuntu
+MAINTAINER Ameya Shenoy shenoy.ameya@gmail.com
+
+WORKDIR ~
+# bare minimum required
+RUN apt-get update && apt-get -y upgrade && apt-get install -y gnupg2 wget curl sudo git python-dev software-properties-common build-essential python-setuptools
+
+# get python pip
+RUN wget -O - https://bootstrap.pypa.io/get-pip.py | python
+
+# getting nodejs
+RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+RUN apt-get install -y nodejs
+
+# getting zsh
+RUN apt-get install -y zsh
+
+# adding user
+RUN useradd -mrs /bin/zsh human
+RUN usermod -aG sudo human
+RUN echo human:admin | chpasswd
+
+# getting antigen
+RUN chsh -s $(which zsh)
+RUN curl -L git.io/antigen > /home/human/antigen.zsh
+COPY .zshrc /home/human/
+
+# startup
+USER human
+WORKDIR /home/human
+ENTRYPOINT /bin/zsh
