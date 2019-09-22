@@ -61,11 +61,7 @@ RUN set -ex \
     zlib-dev \
   && pip install --upgrade \
     pip \
-    imutils \
     numpy \
-    scipy \
-    Pillow \
-    pytesseract \
   && cd /opt \
   && wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
   && unzip ${OPENCV_VERSION}.zip \
