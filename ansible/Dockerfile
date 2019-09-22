@@ -14,5 +14,3 @@ RUN apk add --no-cache --virtual .build-deps \
       ansible-lint \
     && apk del .build-deps
 
-
-
