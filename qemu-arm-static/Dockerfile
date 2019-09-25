@@ -12,6 +12,8 @@ RUN set -ex \
   && cd PKGBUILDs/qemu-user-static-bin \
   && makepkg -sci --noconfirm
 
+
 FROM alpine
+MAINTAINER "Ameya Shenoy <shenoy.ameya@gmail.com>"
 COPY --from=builder /usr/bin/qemu-arm-static /usr/bin/qemu-arm-static
 
