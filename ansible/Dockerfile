@@ -12,8 +12,9 @@ RUN apk add --no-cache --virtual .build-deps \
     sshpass \
     openssh \
   && pip install -U \
-    pip \
     ansible \
     ansible-lint \
+    pip \
+    selinux \
   && apk del .build-deps
 
