@@ -3,7 +3,8 @@ FROM python:alpine
 
 MAINTAINER "Ameya Shenoy <shenoy.ameya@gmail.com>"
 
-RUN apk add --no-cache --virtual .build-deps \
+RUN set -ex \
+  && apk add --no-cache --virtual .build-deps \
     gcc \
     musl-dev \
     libffi-dev \
