@@ -1,14 +1,18 @@
-FROM python:alpine
+FROM nginx:alpine
 
+COPY entrypoint.sh .
 
 RUN set -ex \
+  && chmod +x entrypoint.sh \
   && apk add --no-cache --virtual .build-deps \
     git \
-  && cd /opt \
-  && git clone --depth 1 https://github.com/glowing-bear/glowing-bear \
+  && cd /usr/share/nginx/html \
+  && rm -rf * \
+  && git clone --depth 1 https://github.com/glowing-bear/glowing-bear . \
+  && rm -rf .git \
   && apk del .build-deps \
   && rm -rf /var/cache/apk/*
 
-EXPOSE 8000
-ENTRYPOINT cd /opt/glowing-bear && python -m http.server
+EXPOSE 80
+ENTRYPOINT ./entrypoint.sh
 
