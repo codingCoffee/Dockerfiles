@@ -1,0 +1,44 @@
+FROM archlinux
+
+LABEL maintainer "Ameya Shenoy <hello@codingcoffee.me>"
+
+ENV PRIVILEGED_USER toor
+ENV BRAVE_USER brave
+
+RUN set -ex \
+  && pacman -Syyu --noconfirm \
+    awk \
+    binutils \
+    fakeroot \
+    file \
+    gcc \
+    gettext \
+    git \
+    make \
+    sudo \
+    tar \
+  && useradd -mG wheel -s /bin/bash $PRIVILEGED_USER \
+  && groupadd -r $BRAVE_USER \
+  && useradd -r -g $BRAVE_USER -G audio,video -m $BRAVE_USER \
+  && chown -R $BRAVE_USER:$BRAVE_USER /home/$BRAVE_USER \
+  && echo "${PRIVILEGED_USER} ALL=(ALL:ALL) NOPASSWD:ALL" | EDITOR='tee -a' visudo
+
+USER toor
+RUN set -ex \
+  && cd ~ \
+  && git clone https://aur.archlinux.org/yay.git --depth 1 \
+  && cd yay \
+  && makepkg -sci --noconfirm \
+  && yay -Sy --noconfirm \
+    brave-bin
+
+USER brave
+ENTRYPOINT [ "brave" ]
+CMD [ "--user-data-dir=/data" ]
+
+# pacman -Scc
+# delete user
+# delete yay
+# delete build deps
+# Make everything into a single RUN command
+
