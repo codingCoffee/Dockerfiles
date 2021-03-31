@@ -1,7 +1,7 @@
 FROM python:alpine
 
 
-MAINTAINER "Ameya Shenoy <shenoy.ameya@gmail.com>"
+LABEL maintainer "Ameya Shenoy <hello@codingcoffee.me>"
 
 RUN set -ex \
   && apk add --no-cache --virtual .build-deps \
