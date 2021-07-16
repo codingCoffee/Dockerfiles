@@ -13,7 +13,7 @@ RUN set -ex \
   && ln -sf /dev/stderr /var/log/nginx/error.log \
   && chmod +x entrypoint.sh
 
-VOLUME /srv
+VOLUME /usr/local/share
 EXPOSE 80
 COPY webdav.conf /etc/nginx/http.d/default.conf
 
